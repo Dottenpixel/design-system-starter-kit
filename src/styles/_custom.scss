@@ -1,0 +1,398 @@
+//
+// Prototype styles (using the Sass CSS preprocessor)
+//
+
+body, html{
+  background: #fff;
+}
+// Flow button element overrides
+$ele-size: 140px;
+$ele-padding: 8px;
+.flow-element{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: $ele-size; // only for demo4
+  padding: $ele-padding;
+  border-radius: 0.25rem;
+  &.search{
+    box-shadow: 0 0 0 1px #ff9a3c;
+    background: rgba(255,251,205,0.5);
+
+  }
+  .icon-container{
+    position: relative;
+    button[class*="slds-icon"]{
+      border: none;
+      padding: 0;
+    }
+    .end-point{
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      border: 2px solid #fff;
+      box-shadow: inset 0 0 0 2px rgb(150, 148, 146);
+      background-color: rgb(255, 255, 255);
+      transition: box-shadow .1s ease,background-color .25s ease-out;
+      top: 38px;
+      left: 14px;
+      z-index: 300;
+      &:focus{
+        box-shadow: inset 0 0 0 2px rgb(0, 112, 210), 0 0 3px #0070D2;
+        transform: scale(1.2);
+        outline: none;
+      }
+    }
+  }
+
+  .text-container{
+    max-width: $ele-size - $ele-padding;
+    .text-label{
+      font-size: .875rem;// $font-size-4
+      color: #3e3e3c;
+    }
+    .text-element-type{
+    }
+  }
+}
+
+// ----------------------------
+// Demo of line clamp styles
+// ----------------------------
+
+/* styles for '...' */
+.block-with-text {
+  /* hide text if it more than N lines  */
+  overflow: hidden;
+  /* for set '...' in absolute position */
+  position: relative;
+  /* use this value to count block height */
+  line-height: 1.2em;
+  /* max-height = line-height (1.2) * lines max number (3) */
+  max-height: 2.4em;
+  /* fix problem when last visible word doesn't adjoin right side  */
+  text-align: justify;
+
+  /* */
+  margin-right: -1em;
+  padding-right: 1em;
+}
+.block-with-text:before {
+  /* points in the end */
+  content: '...';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of block */
+  right: 0;
+  bottom: 0;
+}
+.block-with-text:after {
+  /* points in the end */
+  content: '';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of text */
+  right: 0;
+  width: 1em;
+  /* set width and height */
+  height: 1em;
+  margin-top: 0.2em;
+  background: white;
+}
+
+.line-clamp {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.fade-clamp{
+  position: relative;
+  overflow: hidden;
+  word-wrap: break-word;
+  height: 2.4rem; /* exactly three lines */
+  &:after {
+    content: "";
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 80%;
+    height: 1.2em;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fafaf9 90%);
+  }
+}
+.flow-element.search .fade-clamp:after{
+  background: linear-gradient(to right, rgba(255,251,205, 0) 0%, rgba(255,251,205, 1) 100%);
+}
+.overflow-method{
+  overflow: hidden;
+  word-wrap: break-word;
+  max-height: 2.5rem;
+}
+.controls{
+  background:rgba(255,255,255,.8);
+  width: 300px;
+  position: fixed;
+  left:20px;
+  top: 20px;
+  padding: 15px;
+  border: 1px solid rgb(213, 213, 213);
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px rgba(0,0,0,.2);
+}
+body.darken{
+  background-color: #b1b1b1;
+}
+
+.header_utilities{
+  border-bottom: 1px solid #dddbda;
+  .slds-form-element{
+    display: inline-block;
+  }
+}
+
+//accordions demo4
+.section-animated{
+  svg{
+    transition: transform .15s ease;
+  }
+  &.slds-open svg{
+    transform: rotate(0);
+  }
+}
+
+/* -------------------
+// Resource panel
+------------------- */
+$panel-width: 320px;
+.slds-panel{
+  height: 100vh;
+  overflow-x: hidden;
+  .slds-panel__header{
+    transition: padding .15s ease;
+  }
+  &.resource_panel .slds-panel__close{
+    transform: translateX(-42px);
+    transition: all .2s ease;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.flow_resource_detail,
+.flow_resource_list{
+  width: 100%;
+  flex: none;
+  transition: margin .15s ease-in-out, opacity 1.5s ease;
+}
+.flow_resource_detail{
+  opacity: 0;
+}
+//transition state
+.show_details{
+  &.resource_panel .slds-panel__close{
+    transform: translateX(0px);
+    opacity: 1;
+    visibility: visible;
+  }
+  .flow_resource_list{
+    opacity: 0;
+    margin-left: -$panel-width;
+  }
+  .flow_resource_detail{
+    opacity: 1;
+  }
+}
+/* -------------------
+// Panel Toggling
+------------------- */
+.slds-panel{
+  transition-property: transform;
+  //transition-timing-function: ease-in-out;
+  transition-duration: .25s;
+  &.is_docked{
+    transform: translateX(-325px);
+  }
+}
+/* -------------------
+// Spinner animation
+------------------- */
+@-webkit-keyframes spinner{
+  0%{
+    transform: rotate(0);
+  }
+  100%{
+    transform: rotate(359deg);
+  }
+}
+
+.slds-icon-spinner{
+  fill: #0070d2;
+  -webkit-animation: spinner 1.5s infinite linear;
+}
+
+/* -------------------
+// Flowdal Cards
+------------------- */
+.slds-card.flowdal-card{
+  &.slds-selected{
+    border: 1px solid #0070d2; //$color-border-selection;
+  }
+}
+.sample-grid .slds-col {
+  display: inline-flex;
+  text-align: center;
+  border-radius: 0;
+    &.slds-col > .row-container{
+      background-clip: content-box;
+      font-style: italic;
+      width:100%;
+      align-self: center;
+      border: 1px dashed #dedede;
+      padding: 0.5rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      .slds-form-element{
+        text-align: left;
+      }
+    }
+}
+
+/* -------------------
+// C2C Menu
+------------------- */
+.slds-dropdown-trigger.c2c-menu{
+  .c2c-label{
+    opacity: 1;
+    transition: opacity .3s .1s ease;
+    p:nth-child(1){
+      font-weight: bold;
+    }
+  }
+  >.slds-dropdown{
+    overflow: hidden;
+    padding-top:0;
+    width: 300px;
+    max-width: none;
+    z-index: 1;
+    // transition props
+    transition: opacity .25s ease-out, top .25s ease-out;
+    top:-15%;
+    opacity: 0;
+    >.slds-dropdown__header{
+      font-weight: normal;
+      background:#FAFAFB;
+      text-align: center;
+      border-bottom: 1px solid #dddbda;
+    }
+  }
+  svg.slds-icon.slds-icon_small.utility_icon{
+    padding: 4px;
+  }
+  >button{
+    z-index: 10;
+  }
+  >button.c2c{
+    border-radius: 100%;
+    >svg{
+      transition: transform .35s ease;
+    }
+    &:focus{
+      border-color: #0070D2;
+    }
+  }
+  // When menu is open
+  &.c2c-open{
+    .slds-dropdown{
+      top:50%;
+      opacity: 1;
+    }
+    .c2c-label{
+      opacity: 0;
+    }
+    > button.c2c{
+      background-color: #0070D2; //$color-brand-dark;
+      border-color: #0070D2;
+      box-shadow: 0 0 0 2px white;
+      >svg{
+        transform: rotate(135deg);
+        fill: white;
+      }
+    }
+  }
+}
+
+.slds-button.slds-button_small{
+  line-height:1.4rem;
+  min-height: 1rem;
+  padding: 0 .75rem;
+  font-size: .75rem;
+
+}
+.flow-ele{
+  border: 2px solid white;
+  transition: all .15s ease;
+  &:hover,
+  &:focus,
+  &.seleceted{
+    transform: scale(1.1);
+  }
+  &:focus{
+    box-shadow: 0 0 3px #0070d2;
+  }
+  &.selected{
+    box-shadow: 0 0 0 2px #0070d2;
+  }
+  &.selected:focus{
+    box-shadow: 0 0 0 2px #0070d2, 0 0 3px 2px #0070d2;
+  }
+}
+.slds-section.selected {
+  .slds-section__title{
+    box-shadow: 0 0 0 1px $color-brand-dark;
+  }
+}
+.stub{
+  font-style: italic;
+  display: inline-block;
+  max-width: 150px;
+  position: relative;
+  padding-right: 15px;
+  color: $color-text-warning-alt;
+  //color: #c23934; //$color-text-destructive
+  &::after{
+    content: "\2192";
+    position: absolute;
+    right: 0px;
+  }
+}
+
+/* -------------------
+// Sections no Preview
+------------------- */
+.no-preview{
+  margin: .5rem 0 .5rem 0;
+  >div{
+    display: flex;
+  }
+}
+.slds-size_1-of-12{
+  .no-preview{
+    >span{
+    }
+    svg{
+      width: 1rem;
+      height: 1rem;
+      line-height: 1;
+    }
+    .slds-text-heading_small, 
+    .slds-text-body_small{
+      display: none;
+    }
+  }
+}
